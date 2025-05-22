@@ -7,11 +7,8 @@ function App(){
 
   return (
     <div>
-      {!userGoal ? (
-        // If no goal yet → show the form
-        <GoalForm onSubmit={setUserGoal} />
-      ) : (
-        // If goal is submitted → show this
+      {!userGoal ? (<GoalForm onSubmit={setUserGoal} />)
+                 : (
         <div>
           <p>Okay, let’s talk.</p>
           <p><strong>Your goal:</strong> {userGoal}</p>
