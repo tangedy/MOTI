@@ -9,7 +9,7 @@ function GoalForm({ onSubmit }) {
     e.preventDefault();
     if (rawGoal.trim() === '') return;
     
-    const processed = '"hello hello"';
+    const processed = 'meow';
     setProcessedGoal(processed);
     setStage('confirm');
   };
