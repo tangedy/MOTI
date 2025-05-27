@@ -17,3 +17,8 @@ def paraphrase():
         return "<h1>u didnt submit anything!!</h1>"
     
 
+
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
