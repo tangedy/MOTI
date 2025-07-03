@@ -27,8 +27,8 @@ User Context:
 ${answersContext}
 
 Generate 4-6 main steps that cover the essential areas needed to achieve this goal. For each step, provide:
-1. A clear, simple title (what needs to be done)
-2. A detailed explanation of WHY this step is necessary and important
+1. A clear, short and simple title (what needs to be done)
+2. A brief but concise description of WHY this step is necessary and important
 
 Respond with ONLY valid JSON in this format:
 {
