@@ -78,21 +78,21 @@ export default function PlanDisplay({ plan, onReset }: PlanDisplayProps) {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <div className="border border-gray-300 p-6">
-        <div className="flex justify-between items-start mb-4">
+    <div className="max-w-4xl mx-auto space-y-8">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-8">
+        <div className="flex justify-between items-start mb-6">
           <div>
-            <h2 className="text-2xl font-semibold mb-2">Your Personalized Plan</h2>
-            <p className="text-gray-600">{plan.summary}</p>
+            <h2 className="text-2xl font-bold mb-2 text-gray-900">Your Personalized Plan</h2>
+            <p className="text-gray-700">{plan.summary}</p>
           </div>
-          <button onClick={onReset} className="bg-gray-600 text-white px-4 py-2">
+          <button onClick={onReset} className="bg-gray-600 hover:bg-gray-700 transition text-white font-semibold rounded-lg px-4 py-2">
             New Goal
           </button>
         </div>
 
         <div className="flex gap-4 text-sm">
-          <span className="bg-gray-100 px-3 py-1 border border-gray-300">Estimated: {plan.estimated_timeline}</span>
-          <span className="bg-gray-100 px-3 py-1 border border-gray-300">Minimum: {plan.minimum_timeline}</span>
+          <span className="bg-gray-50 px-3 py-1 border border-gray-200 rounded-lg">Estimated: {plan.estimated_timeline}</span>
+          <span className="bg-gray-50 px-3 py-1 border border-gray-200 rounded-lg">Minimum: {plan.minimum_timeline}</span>
         </div>
       </div>
 
@@ -107,26 +107,26 @@ export default function PlanDisplay({ plan, onReset }: PlanDisplayProps) {
           const phaseComplete = phaseProgress === phaseTotal
 
           return (
-            <div key={phaseIndex} className={`border border-gray-300 ${phaseComplete ? "bg-green-50" : ""}`}>
-              <div className="p-4 cursor-pointer hover:bg-gray-50" onClick={() => togglePhase(phaseIndex)}>
+            <div key={phaseIndex} className={`bg-white border border-gray-200 rounded-lg shadow-sm ${phaseComplete ? "bg-green-50" : ""}`}>
+              <div className="p-4 cursor-pointer hover:bg-gray-50 rounded-t-lg" onClick={() => togglePhase(phaseIndex)}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <span>{isOpen ? "−" : "+"}</span>
+                    <span className="text-gray-400 text-xl">{isOpen ? " −" : "+"}</span>
                     <div>
-                      <h3 className="text-xl font-semibold">
+                      <h3 className="text-xl font-semibold text-gray-900">
                         Phase {phaseIndex + 1}: {phase.title}
                       </h3>
-                      <p className="text-gray-600">{phase.description}</p>
+                      <p className="text-gray-700">{phase.description}</p>
                     </div>
                   </div>
-                  <span className="bg-gray-100 px-2 py-1 text-sm border border-gray-300">
+                  <span className="bg-gray-50 px-2 py-1 text-sm border border-gray-200 rounded-lg">
                     {phaseProgress}/{phaseTotal} tasks
                   </span>
                 </div>
               </div>
 
               {isOpen && (
-                <div className="border-t border-gray-300 p-4">
+                <div className="border-t border-gray-200 p-4 rounded-b-lg">
                   <div className="space-y-4">
                     {phase.tasks.map((task, taskIndex) => {
                       const taskId = `${phaseIndex}-${taskIndex}`
@@ -139,7 +139,7 @@ export default function PlanDisplay({ plan, onReset }: PlanDisplayProps) {
                       return (
                         <div
                           key={taskIndex}
-                          className={`border border-gray-300 p-4 ${isTaskComplete ? "bg-green-50" : ""}`}
+                          className={`border border-gray-200 rounded-lg p-4 ${isTaskComplete ? "bg-green-50" : ""}`}
                         >
                           <div className="flex items-start gap-3 mb-3">
                             <input
@@ -150,15 +150,15 @@ export default function PlanDisplay({ plan, onReset }: PlanDisplayProps) {
                             />
                             <div className="flex-1">
                               <h4
-                                className={`text-lg font-medium ${isTaskComplete ? "line-through text-gray-500" : ""}`}
+                                className={`text-lg font-medium text-gray-900 ${isTaskComplete ? "line-through text-gray-500" : ""}`}
                               >
                                 {task.title}
                               </h4>
-                              <p className={`text-gray-600 ${isTaskComplete ? "line-through" : ""}`}>
+                              <p className={`text-gray-700 ${isTaskComplete ? "line-through" : ""}`}>
                                 {task.description}
                               </p>
                             </div>
-                            <span className="bg-gray-100 px-2 py-1 text-sm border border-gray-300">
+                            <span className="bg-gray-50 px-2 py-1 text-sm border border-gray-200 rounded-lg">
                               {completedSubtaskCount}/{task.subtasks.length}
                             </span>
                           </div>

@@ -187,14 +187,14 @@ export default function TimelineSelector({
   const isMinimumWarning = selectedWeeks < timelineData.minimum_weeks
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
+    <div className="max-w-2xl mx-auto space-y-8">
       {!showRevision && (
-        <div className="border border-gray-300 p-6">
-          <h2 className="text-2xl font-semibold mb-4">Timeline Estimate</h2>
-          <p className="mb-4">Based on your goal and context</p>
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-8">
+          <h2 className="text-2xl font-bold mb-4 text-gray-900">Timeline Estimate</h2>
+          <p className="mb-4 text-gray-700">Based on your goal and context</p>
 
-          <div className="text-center p-6 bg-blue-50 border border-blue-200 mb-4">
-            <p className="text-lg mb-2">I think this can be done in</p>
+          <div className="text-center p-6 bg-gray-50 border border-gray-200 rounded-lg mb-4">
+            <p className="text-lg mb-2 text-gray-800">I think this can be done in</p>
             <p className="text-3xl font-bold text-blue-600">
               {timelineData.suggested_weeks < 4
                 ? `${timelineData.suggested_weeks} week${timelineData.suggested_weeks === 1 ? "" : "s"}`
@@ -202,15 +202,15 @@ export default function TimelineSelector({
             </p>
           </div>
 
-          <div className="p-4 bg-gray-100 border border-gray-300 mb-4">
-            <p className="text-sm">{timelineData.reasoning}</p>
+          <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-4">
+            <p className="text-sm text-gray-700">{timelineData.reasoning}</p>
           </div>
 
           <div className="flex gap-4">
-            <button onClick={handleConfirm} className="flex-1 bg-blue-600 text-white py-3">
+            <button onClick={handleConfirm} className="flex-1 bg-blue-600 hover:bg-blue-700 transition text-white font-semibold rounded-lg py-3">
               Sounds good - Create my plan
             </button>
-            <button onClick={() => setShowRevision(true)} className="flex-1 bg-gray-600 text-white py-3">
+            <button onClick={() => setShowRevision(true)} className="flex-1 bg-gray-600 hover:bg-gray-700 transition text-white font-semibold rounded-lg py-3">
               Let me adjust the timeline
             </button>
           </div>
@@ -218,14 +218,14 @@ export default function TimelineSelector({
       )}
 
       {showRevision && (
-        <div className="border border-gray-300 p-6">
-          <h2 className="text-2xl font-semibold mb-4">Adjust Your Timeline</h2>
-          <p className="mb-6">Slide to set your preferred timeline</p>
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-8">
+          <h2 className="text-2xl font-bold mb-4 text-gray-900">Adjust Your Timeline</h2>
+          <p className="mb-6 text-gray-700">Slide to set your preferred timeline</p>
 
           <div className="text-center mb-6">
             <p className="text-2xl font-bold text-blue-600 mb-2">{getTimelineText()}</p>
-            <p className="text-sm bg-gray-100 inline-block px-3 py-1 border border-gray-300">
-              {intensity.description} • {intensity.hoursPerDay}
+            <p className="text-sm bg-gray-50 inline-block px-3 py-1 border border-gray-200 rounded-lg text-gray-700">
+              {intensity.description}  {intensity.hoursPerDay}
             </p>
           </div>
 
@@ -237,7 +237,7 @@ export default function TimelineSelector({
               min={Math.max(1, timelineData.minimum_weeks - 2)}
               max={timelineData.maximum_weeks}
               step={1}
-              className="w-full"
+              className="w-full accent-blue-600"
             />
             <div className="flex justify-between text-xs text-gray-500 mt-2">
               <span>
@@ -254,27 +254,26 @@ export default function TimelineSelector({
           </div>
 
           {isMinimumWarning && (
-            <div className="p-4 bg-red-100 border border-red-300 text-red-700 mb-4">
+            <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg mb-4">
               <p>
-                ⚠️ This timeline is very aggressive. You'll need to dedicate {intensity.hoursPerDay} to finish in{" "}
-                {getTimelineText()}. Consider allowing more time for a sustainable pace.
+                 This timeline is very aggressive. You'll need to dedicate {intensity.hoursPerDay} to finish in {getTimelineText()}. Consider allowing more time for a sustainable pace.
               </p>
             </div>
           )}
 
-          <div className="flex justify-between">
-            <button onClick={onBack} className="bg-gray-600 text-white px-6 py-2">
-              ← Back
+          <div className="flex justify-between gap-4">
+            <button onClick={onBack} className="bg-gray-600 hover:bg-gray-700 transition text-white font-semibold rounded-lg px-6 py-3">
+               Back
             </button>
 
-            <button onClick={handleConfirm} className="bg-blue-600 text-white px-6 py-2">
-              Create plan for {getTimelineText()} →
+            <button onClick={handleConfirm} className="bg-blue-600 hover:bg-blue-700 transition text-white font-semibold rounded-lg px-6 py-3">
+              Create plan for {getTimelineText()} 
             </button>
           </div>
         </div>
       )}
 
-      {error && <div className="p-4 bg-red-100 border border-red-300 text-red-700">{error}</div>}
+      {error && <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">{error}</div>}
     </div>
   )
 }
