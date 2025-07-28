@@ -13,6 +13,7 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
   const [stage, setStage] = useState<"input" | "confirm">("input")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [summary, setSummary] = useState("")
 
   const handleInput = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -22,8 +23,20 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
     setError("")
 
     try {
-      const processed = rawGoal
-      setProcessedGoal(processed)
+      // Call the summarize-goal API
+      const summaryResponse = await fetch("/api/summarize-goal", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ goal: rawGoal }),
+      })
+      if (!summaryResponse.ok) {
+        throw new Error("Failed to summarize goal")
+      }
+      const summaryData = await summaryResponse.json()
+      setSummary(summaryData.summary)
+      setProcessedGoal(rawGoal)
       setStage("confirm")
     } catch (err) {
       setError("Something went wrong. Please try again.")
@@ -97,7 +110,7 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
           <h2 className="text-xl font-semibold mb-4">Confirm your goal</h2>
           <div className="p-4 bg-gray-100 mb-4">
             <p>
-              It sounds like you want to <strong>{processedGoal}</strong>, is that right?
+              It sounds like you want to <strong>{summary}</strong>, is that right?
             </p>
           </div>
           <div className="flex gap-4">
