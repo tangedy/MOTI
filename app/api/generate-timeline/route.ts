@@ -49,12 +49,38 @@ Respond with ONLY valid JSON in this format:
 }
 
 Guidelines:
+- Most goals should be achievable in 2-8 weeks unless they are truly large or complex.
+- Only suggest timelines longer than 12 weeks for extremely ambitious or multi-phase goals.
+- For simple goals, timelines may be as short as 1-2 weeks.
+- Use the user's experience and available time to adjust, but avoid being overly conservative.
 - suggested_weeks: Your recommended timeline for sustainable progress
 - minimum_weeks: Absolute minimum if working very intensively (5-7 hours/day)
 - maximum_weeks: Upper bound for a very relaxed pace (1-2 hours/day)
 - reasoning: 1-2 sentences explaining the timeline rationale
-- Consider the user's experience level and available time
-- Be realistic but encouraging`
+- Be realistic
+
+Examples:
+// Example 1: Simple goal
+{
+  "suggested_weeks": 2,
+  "minimum_weeks": 1,
+  "maximum_weeks": 4,
+  "reasoning": "This is a straightforward goal that can be completed quickly with focused effort."
+}
+// Example 2: Moderate goal
+{
+  "suggested_weeks": 6,
+  "minimum_weeks": 4,
+  "maximum_weeks": 10,
+  "reasoning": "This goal has several steps but is manageable within a couple of months at a steady pace."
+}
+// Example 3: Ambitious goal
+{
+  "suggested_weeks": 12,
+  "minimum_weeks": 8,
+  "maximum_weeks": 16,
+  "reasoning": "This is a complex, multi-phase goal that will require sustained effort over several months."
+}`
 
     const response = await fetch(GROQ_URL, {
       method: "POST",
