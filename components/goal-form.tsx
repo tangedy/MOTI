@@ -83,22 +83,22 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
   }
 
   return (
-    <div className="max-w-2xl mx-auto border border-gray-300 p-6">
+    <div className="max-w-2xl mx-auto bg-white border border-gray-200 rounded-xl shadow-sm p-8">
       {stage === "input" && (
         <form onSubmit={handleInput}>
-          <h2 className="text-xl font-semibold mb-4">What do you want to achieve?</h2>
+          <h2 className="text-2xl font-bold mb-6 text-gray-900">What do you want to achieve?</h2>
           <input
             type="text"
             value={rawGoal}
             onChange={(e) => setRawGoal(e.target.value)}
             placeholder="I want to..."
-            className="w-full p-3 border border-gray-300 mb-4"
+            className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 mb-6 text-lg bg-gray-50"
             disabled={loading}
           />
           <button
             type="submit"
             disabled={loading || rawGoal.trim() === ""}
-            className="bg-blue-600 text-white px-6 py-2 disabled:bg-gray-400"
+            className="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-semibold rounded-lg px-6 py-3 disabled:bg-gray-300"
           >
             {loading ? "Processing..." : "Send"}
           </button>
@@ -107,9 +107,9 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
 
       {stage === "confirm" && (
         <div>
-          <h2 className="text-xl font-semibold mb-4">Confirm your goal</h2>
-          <div className="p-4 bg-gray-100 mb-4">
-            <p>
+          <h2 className="text-2xl font-bold mb-6 text-gray-900">Confirm your goal</h2>
+          <div className="p-6 bg-gray-50 border border-gray-200 rounded-lg mb-6">
+            <p className="text-lg text-gray-800">
               It sounds like you want to <strong>{summary}</strong>, is that right?
             </p>
           </div>
@@ -117,14 +117,14 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
             <button
               onClick={handleConfirmation}
               disabled={loading}
-              className="bg-green-600 text-white px-6 py-2 disabled:bg-gray-400"
+              className="flex-1 bg-green-600 hover:bg-green-700 transition text-white font-semibold rounded-lg px-6 py-3 disabled:bg-gray-300"
             >
               {loading ? "Loading Questions..." : "Confirm"}
             </button>
             <button
               onClick={handleRevise}
               disabled={loading}
-              className="bg-gray-600 text-white px-6 py-2 disabled:bg-gray-400"
+              className="flex-1 bg-gray-600 hover:bg-gray-700 transition text-white font-semibold rounded-lg px-6 py-3 disabled:bg-gray-300"
             >
               Revise
             </button>
@@ -132,7 +132,7 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
         </div>
       )}
 
-      {error && <div className="mt-4 p-4 bg-red-100 border border-red-300 text-red-700">{error}</div>}
+      {error && <div className="mt-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">{error}</div>}
     </div>
   )
 }

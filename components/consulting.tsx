@@ -164,49 +164,48 @@ export default function Consulting({ goal, questions, onComplete }: ConsultingPr
 
   if (loading) {
     return (
-      <div className="max-w-2xl mx-auto border border-gray-300 p-6 text-center">
-        <h2 className="text-xl font-semibold mb-2">
+      <div className="max-w-2xl mx-auto bg-white border border-gray-200 rounded-xl shadow-sm p-8 text-center">
+        <h2 className="text-2xl font-bold mb-4 text-gray-900">
           {showPhaseChoice ? "Generating follow-up questions..." : "Processing your responses..."}
         </h2>
-        <p>This might take a moment.</p>
+        <p className="text-gray-600">This might take a moment.</p>
       </div>
     )
   }
 
   if (showPhaseChoice) {
     return (
-      <div className="max-w-2xl mx-auto border border-gray-300 p-6">
-        <h2 className="text-xl font-semibold mb-4">Great progress!</h2>
-        <p className="mb-4">
-          You've completed the {currentPhase === "primary" ? "primary" : "secondary"} questions. What would you like to
-          do next?
+      <div className="max-w-2xl mx-auto bg-white border border-gray-200 rounded-xl shadow-sm p-8">
+        <h2 className="text-2xl font-bold mb-6 text-gray-900">Great progress!</h2>
+        <p className="mb-6 text-gray-700">
+          You've completed the {currentPhase === "primary" ? "primary" : "secondary"} questions. What would you like to do next?
         </p>
 
-        <div className="mb-4">
-          <div className="w-full bg-gray-200 h-2 mb-2">
-            <div className="bg-blue-600 h-2" style={{ width: `${getProgress()}%` }}></div>
+        <div className="mb-6">
+          <div className="w-full bg-gray-100 h-2 mb-2 rounded-full overflow-hidden">
+            <div className="bg-blue-600 h-2 rounded-full" style={{ width: `${getProgress()}%` }}></div>
           </div>
-          <div className="flex justify-between text-sm">
+          <div className="flex justify-between text-sm text-gray-500">
             <span>{getStatusText()}</span>
             <span>{Object.keys(answers).length} questions answered</span>
           </div>
         </div>
 
         <div className="space-y-4">
-          <button onClick={() => proceedToOverview(answers)} className="w-full bg-blue-600 text-white py-3">
+          <button onClick={() => proceedToOverview(answers)} className="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-semibold rounded-lg py-3">
             See My Plan Overview
           </button>
 
-          <div className="text-center text-gray-500">or</div>
+          <div className="text-center text-gray-400">or</div>
 
           {currentPhase === "primary" && (
-            <button onClick={generateSecondaryQuestions} className="w-full bg-gray-600 text-white py-3">
+            <button onClick={generateSecondaryQuestions} className="w-full bg-gray-600 hover:bg-gray-700 transition text-white font-semibold rounded-lg py-3">
               Answer More Specific Questions (3 more)
             </button>
           )}
 
           {currentPhase === "secondary" && (
-            <button onClick={generateTertiaryQuestions} className="w-full bg-gray-600 text-white py-3">
+            <button onClick={generateTertiaryQuestions} className="w-full bg-gray-600 hover:bg-gray-700 transition text-white font-semibold rounded-lg py-3">
               Answer Final Deep-Dive Questions (3 more)
             </button>
           )}
@@ -218,17 +217,17 @@ export default function Consulting({ goal, questions, onComplete }: ConsultingPr
   const currentQuestions = getCurrentQuestions()
 
   return (
-    <div className="max-w-2xl mx-auto border border-gray-300 p-6">
-      <h2 className="text-xl font-semibold mb-2">Okay, let's talk.</h2>
-      <p className="text-gray-600 mb-4">
+    <div className="max-w-2xl mx-auto bg-white border border-gray-200 rounded-xl shadow-sm p-8">
+      <h2 className="text-2xl font-bold mb-4 text-gray-900">Okay, let's talk.</h2>
+      <p className="text-gray-700 mb-6">
         Goal: <strong>{goal}</strong>
       </p>
 
-      <div className="mb-6">
-        <div className="w-full bg-gray-200 h-2 mb-2">
-          <div className="bg-blue-600 h-2" style={{ width: `${getProgress()}%` }}></div>
+      <div className="mb-8">
+        <div className="w-full bg-gray-100 h-2 mb-2 rounded-full overflow-hidden">
+          <div className="bg-blue-600 h-2 rounded-full" style={{ width: `${getProgress()}%` }}></div>
         </div>
-        <div className="flex justify-between text-sm">
+        <div className="flex justify-between text-sm text-gray-500">
           <span>{getStatusText()}</span>
           <span>
             {currentPhase === "primary" &&
@@ -241,9 +240,8 @@ export default function Consulting({ goal, questions, onComplete }: ConsultingPr
         </div>
       </div>
 
-      <div className="mb-6">
-        <h3 className="text-lg font-medium mb-4">{currentQuestions[currentQuestionIndex]}</h3>
-
+      <div className="mb-8">
+        <h3 className="text-lg font-medium mb-4 text-gray-900">{currentQuestions[currentQuestionIndex]}</h3>
         <QuestionInput question={currentQuestions[currentQuestionIndex]} onAnswer={handleAnswer} onSkip={handleSkip} />
       </div>
 
@@ -251,17 +249,17 @@ export default function Consulting({ goal, questions, onComplete }: ConsultingPr
         <button
           onClick={goBack}
           disabled={currentQuestionIndex === 0}
-          className="bg-gray-600 text-white px-4 py-2 disabled:bg-gray-400"
+          className="bg-gray-600 hover:bg-gray-700 transition text-white font-semibold rounded-lg px-4 py-2 disabled:bg-gray-300"
         >
-          ← Back
+           Back
         </button>
 
-        <button onClick={handleSkip} className="bg-gray-600 text-white px-4 py-2">
-          Skip Question →
+        <button onClick={handleSkip} className="bg-gray-600 hover:bg-gray-700 transition text-white font-semibold rounded-lg px-4 py-2">
+          Skip Question 
         </button>
       </div>
 
-      {error && <div className="mt-4 p-4 bg-red-100 border border-red-300 text-red-700">{error}</div>}
+      {error && <div className="mt-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">{error}</div>}
     </div>
   )
 }
@@ -291,15 +289,24 @@ function QuestionInput({
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         placeholder="Type your answer here..."
-        className="w-full p-3 border border-gray-300 h-24"
+        className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 h-28 bg-gray-50 text-base"
       />
-      <button
-        type="submit"
-        disabled={!inputValue.trim()}
-        className="w-full bg-green-600 text-white py-2 disabled:bg-gray-400"
-      >
-        {question.includes("?") ? "Answer" : "Next"} →
-      </button>
+      <div className="flex gap-2">
+        <button
+          type="submit"
+          disabled={!inputValue.trim()}
+          className="flex-1 bg-green-600 hover:bg-green-700 transition text-white font-semibold rounded-lg py-2 disabled:bg-gray-300"
+        >
+          {question.includes("?") ? "Answer" : "Next"} 
+        </button>
+        <button
+          type="button"
+          onClick={onSkip}
+          className="flex-1 bg-gray-200 hover:bg-gray-300 transition text-gray-700 font-semibold rounded-lg py-2"
+        >
+          Skip
+        </button>
+      </div>
     </form>
   )
 }

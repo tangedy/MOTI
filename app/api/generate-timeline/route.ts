@@ -127,6 +127,12 @@ Examples:
           throw new Error("Invalid timeline structure")
         }
 
+        // Artificially shorten the timeline for now
+        const divisor = 4;
+        timelineData.suggested_weeks = Math.max(1, Math.round(timelineData.suggested_weeks / divisor));
+        timelineData.minimum_weeks = Math.max(1, Math.round(timelineData.minimum_weeks / divisor));
+        timelineData.maximum_weeks = Math.max(1, Math.round(timelineData.maximum_weeks / divisor));
+
         // Ensure logical constraints
         if (timelineData.minimum_weeks > timelineData.suggested_weeks) {
           timelineData.minimum_weeks = Math.max(1, timelineData.suggested_weeks - 2)
