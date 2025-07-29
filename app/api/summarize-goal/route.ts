@@ -10,7 +10,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "No goal provided" }, { status: 400 })
     }
 
-    const prompt = `Summarize the following goal in simple, clear language that anyone can understand. Make it concise and easy to grasp, using everyday words.\n\nGoal: ${goal}\n\nRespond with ONLY valid JSON in this format:\n{\n  \"summary\": \"A simple summary of the goal\"\n}`
+    // Check if API key is available
+    if (!GROQ_API_KEY) {
+      return NextResponse.json({ error: "AI features are disabled - API key not configured" }, { status: 503 })
+    }
+
+    const prompt = `Summarize the following goal in simple, clear language that anyone can understand. Make it concise and easy to grasp, using everyday words.\n\nGoal: ${goal}\n\nRespond with ONLY valid JSON in this format:\n{\n  \"summary\": \"A simple summary of the goal\"\n}\n\nIf you cannot summarize the goal because it is too vague or unclear, respond with ONLY this JSON:\n{\n  \"error\": 400\n}`
 
     const response = await fetch(GROQ_URL, {
       method: "POST",
@@ -43,6 +48,9 @@ export async function POST(request: NextRequest) {
       content = content.replace(/^[^{]*({.*})[^}]*$/s, "$1")
       try {
         const summaryData = JSON.parse(content)
+        if (summaryData.error === 400) {
+          return NextResponse.json({ error: "Hmm. That's a bit unclear." }, { status: 400 })
+        }
         if (!summaryData.summary) throw new Error("No summary returned")
         return NextResponse.json(summaryData)
       } catch (parseError) {

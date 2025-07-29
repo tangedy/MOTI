@@ -11,6 +11,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Missing required data" }, { status: 400 })
     }
 
+    // Check if API key is available
+    if (!GROQ_API_KEY) {
+      return NextResponse.json({ error: "AI features are disabled - API key not configured" }, { status: 503 })
+    }
+
     // Build context from previous answers
     const answersContext = Object.entries(answers)
       .map(([question, answer]) => `Q: ${question}\nA: ${answer}`)
