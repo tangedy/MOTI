@@ -31,10 +31,15 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
         },
         body: JSON.stringify({ goal: rawGoal }),
       })
-      if (!summaryResponse.ok) {
-        throw new Error("Failed to summarize goal")
-      }
       const summaryData = await summaryResponse.json()
+      if (!summaryResponse.ok) {
+        setError(summaryData.error || "Something went wrong. Please try again.")
+        return
+      }
+      if (summaryData.error === "Hmm. That's a bit unclear.") {
+        setError("Please enter a more specific goal so we can help you better.")
+        return
+      }
       setSummary(summaryData.summary)
       setProcessedGoal(rawGoal)
       setStage("confirm")
@@ -83,25 +88,37 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
   }
 
   return (
-    <div className="max-w-2xl mx-auto bg-white border border-gray-200 rounded-xl shadow-sm p-8">
+    <div className="max-w-xl mx-auto flex flex-col items-center justify-start min-h-[60vh] pt-24">
       {stage === "input" && (
-        <form onSubmit={handleInput}>
-          <h2 className="text-2xl font-bold mb-6 text-gray-900">What do you want to achieve?</h2>
+        <form onSubmit={handleInput} className="w-full flex flex-col items-center">
+          <h2 className="text-6xl font-light mb-10 text-center text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif', letterSpacing: '-0.02em' }}>
+            What do you want to achieve?
+          </h2>
           <input
             type="text"
             value={rawGoal}
             onChange={(e) => setRawGoal(e.target.value)}
             placeholder="I want to..."
-            className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 mb-6 text-lg bg-gray-50"
+            className="w-[44rem] max-w-full px-8 py-1.5 mb-2 rounded-2xl border border-gray-300 bg-white/30 backdrop-blur-md text-lg text-left shadow-md focus:outline-none focus:ring-2 focus:ring-coffee-cream placeholder-gray-500 transition font-normal"
             disabled={loading}
+            autoFocus
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !loading && rawGoal.trim() !== "") {
+                handleInput(e)
+              }
+            }}
+            style={{ textAlign: 'left' }}
           />
-          <button
-            type="submit"
-            disabled={loading || rawGoal.trim() === ""}
-            className="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-semibold rounded-lg px-6 py-3 disabled:bg-gray-300"
-          >
-            {loading ? "Processing..." : "Send"}
-          </button>
+          {/* Reserve space for error message, fade in if present */}
+          <div style={{ minHeight: 32 }} className="w-full flex items-start justify-start mt-2">
+            <div className={`transition-opacity duration-500 ${error ? 'opacity-100' : 'opacity-0'}` + " w-full max-w-md"}>
+              {error && (
+                <div className="p-2 bg-[rgba(153,27,27,0.85)] border border-[rgba(120,20,20,0.7)] text-white rounded-lg text-left text-sm shadow-sm font-normal" style={{ fontFamily: 'Segoe UI, Arial, sans-serif' }}>
+                  {error}
+                </div>
+              )}
+            </div>
+          </div>
         </form>
       )}
 
@@ -131,8 +148,6 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
           </div>
         </div>
       )}
-
-      {error && <div className="mt-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">{error}</div>}
     </div>
   )
 }
