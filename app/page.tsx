@@ -6,6 +6,7 @@ import Consulting from "@/components/consulting"
 import PlanOverview from "@/components/plan-overview"
 import TimelineSelector from "@/components/timeline-selector"
 import PlanDisplay from "@/components/plan-display"
+import { AnimatedWrapper } from "@/components/ui/animated-wrapper"
 
 export default function Home() {
   const [currentStep, setCurrentStep] = useState<"goal" | "consulting" | "overview" | "timeline" | "plan">("goal")
@@ -48,42 +49,46 @@ export default function Home() {
     <div className="min-h-screen flex items-center justify-center">
       <div className="w-full max-w-4xl mx-auto">
         {/* Simple Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2">MOTI</h1>
-          <p className="text-gray-600">Your execution engine</p>
-        </div>
+        <AnimatedWrapper index={0}>
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold mb-2">MOTI</h1>
+            <p className="text-gray-600">Your execution engine</p>
+          </div>
+        </AnimatedWrapper>
 
         {/* Main Content */}
-        {currentStep === "goal" && <GoalForm onSubmit={handleGoalSubmit} />}
+        <AnimatedWrapper index={1}>
+          {currentStep === "goal" && <GoalForm onSubmit={handleGoalSubmit} />}
 
-        {currentStep === "consulting" && goalData && (
-          <Consulting goal={goalData.goal} questions={goalData.questions} onComplete={handleConsultingComplete} />
-        )}
+          {currentStep === "consulting" && goalData && (
+            <Consulting goal={goalData.goal} questions={goalData.questions} onComplete={handleConsultingComplete} />
+          )}
 
-        {currentStep === "overview" && consultingData && (
-          <PlanOverview
-            goal={consultingData.goal}
-            answers={consultingData.answers}
-            onApprove={handleOverviewApprove}
-            onBack={() => setCurrentStep("consulting")}
-          />
-        )}
+          {currentStep === "overview" && consultingData && (
+            <PlanOverview
+              goal={consultingData.goal}
+              answers={consultingData.answers}
+              onApprove={handleOverviewApprove}
+              onBack={() => setCurrentStep("consulting")}
+            />
+          )}
 
-        {currentStep === "timeline" && consultingData && overviewData && (
-          <TimelineSelector
-            goal={consultingData.goal}
-            answers={consultingData.answers}
-            overview={overviewData}
-            onConfirm={handleTimelineConfirm}
-            onBack={() => setCurrentStep("overview")}
-            onGeneratePlan={(plan) => {
-              setPlanData(plan)
-              setCurrentStep("plan")
-            }}
-          />
-        )}
+          {currentStep === "timeline" && consultingData && overviewData && (
+            <TimelineSelector
+              goal={consultingData.goal}
+              answers={consultingData.answers}
+              overview={overviewData}
+              onConfirm={handleTimelineConfirm}
+              onBack={() => setCurrentStep("overview")}
+              onGeneratePlan={(plan) => {
+                setPlanData(plan)
+                setCurrentStep("plan")
+              }}
+            />
+          )}
 
-        {currentStep === "plan" && planData && <PlanDisplay plan={planData} onReset={resetApp} />}
+          {currentStep === "plan" && planData && <PlanDisplay plan={planData} onReset={resetApp} />}
+        </AnimatedWrapper>
       </div>
     </div>
   )
