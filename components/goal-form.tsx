@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { useState } from "react"
+import { AnimatedWrapper } from "@/components/ui/animated-wrapper"
 
 interface GoalFormProps {
   onSubmit: (data: { goal: string; questions: string[] }) => void
@@ -91,26 +92,34 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
     <div className="max-w-xl mx-auto flex flex-col items-center justify-start min-h-[60vh] pt-24">
       {stage === "input" && (
         <form onSubmit={handleInput} className="w-full flex flex-col items-center">
-          <h2 className="text-6xl font-light mb-10 text-center text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif', letterSpacing: '-0.02em' }}>
-            What do you want to achieve?
-          </h2>
-          <input
-            type="text"
-            value={rawGoal}
-            onChange={(e) => setRawGoal(e.target.value)}
-            placeholder="I want to..."
-            className="w-[44rem] max-w-full px-8 py-1.5 mb-2 rounded-2xl border border-gray-300 bg-white/30 backdrop-blur-md text-lg text-left shadow-md focus:outline-none focus:ring-2 focus:ring-coffee-cream placeholder-gray-500 transition font-normal"
-            disabled={loading}
-            autoFocus
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !loading && rawGoal.trim() !== "") {
-                handleInput(e)
-              }
-            }}
-            style={{ textAlign: 'left' }}
-          />
-          {/* Reserve space for error message, fade in if present */}
-          <div style={{ minHeight: 32 }} className="w-full flex items-start justify-start mt-2">
+          {/* Header with first animation */}
+          <AnimatedWrapper index={0}>
+            <h2 className="text-6xl font-light mb-10 text-center text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif', letterSpacing: '-0.02em' }}>
+              What do you want to achieve?
+            </h2>
+          </AnimatedWrapper>
+          
+          {/* Input field with second animation */}
+          <AnimatedWrapper index={2}>
+            <input
+              type="text"
+              value={rawGoal}
+              onChange={(e) => setRawGoal(e.target.value)}
+              placeholder="I want to..."
+              className="w-[44rem] max-w-full px-8 py-1.5 mb-2 rounded-2xl border border-gray-300 bg-white/30 backdrop-blur-md text-lg text-left shadow-md focus:outline-none focus:ring-2 focus:ring-coffee-cream placeholder-gray-500 transition font-normal"
+              disabled={loading}
+              autoFocus
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !loading && rawGoal.trim() !== "") {
+                  handleInput(e)
+                }
+              }}
+              style={{ textAlign: 'left' }}
+            />
+          </AnimatedWrapper>
+          
+          {/* Error message with third animation */}
+          <AnimatedWrapper index={2} className="w-full flex items-start justify-start mt-2" style={{ minHeight: 32 }}>
             <div className={`transition-opacity duration-500 ${error ? 'opacity-100' : 'opacity-0'}` + " w-full max-w-md"}>
               {error && (
                 <div className="p-2 bg-[rgba(153,27,27,0.85)] border border-[rgba(120,20,20,0.7)] text-white rounded-lg text-left text-sm shadow-sm font-normal" style={{ fontFamily: 'Segoe UI, Arial, sans-serif' }}>
@@ -118,38 +127,40 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
                 </div>
               )}
             </div>
-          </div>
+          </AnimatedWrapper>
         </form>
       )}
 
       {stage === "confirm" && (
-        <div>
-            <h2 className="text-5xl font-light mb-7 text-center text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif', letterSpacing: '-0.02em' }}>
-            It sounds like you want to...
-          </h2>
+        <AnimatedWrapper>
           <div>
-            <p className="text-lg mb-7 text-center text-gray-800">
-              <strong>{summary}, </strong>
-              <div>is that right?</div>
-            </p>
-          </div> 
-          <div className="flex gap-4">
-            <button
-              onClick={handleConfirmation}
-              disabled={loading}
-              className="flex-1 bg-green-600 hover:bg-green-700 transition text-white font-semibold rounded-lg px-6 py-3 disabled:bg-gray-300"
-            >
-              {"Yes"}
-            </button>
-            <button
-              onClick={handleRevise}
-              disabled={loading}
-              className="flex-1 bg-gray-600 hover:bg-gray-700 transition text-white font-semibold rounded-lg px-6 py-3 disabled:bg-gray-300"
-            >
-              No
-            </button>
+            <h2 className="text-5xl font-light mb-7 text-center text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif', letterSpacing: '-0.02em' }}>
+              It sounds like you want to...
+            </h2>
+            <div>
+              <p className="text-lg mb-7 text-center text-gray-800">
+                <strong>{summary}, </strong>
+                <div>is that right?</div>
+              </p>
+            </div> 
+            <div className="flex gap-4">
+              <button
+                onClick={handleConfirmation}
+                disabled={loading}
+                className="flex-1 bg-green-600 hover:bg-green-700 transition text-white font-semibold rounded-lg px-3 py-3 disabled:bg-gray-300"
+              >
+                {"Yes"}
+              </button>
+              <button
+                onClick={handleRevise}
+                disabled={loading}
+                className="flex-1 bg-gray-600 hover:bg-gray-700 transition text-white font-semibold rounded-lg px-3 py-3 disabled:bg-gray-300"
+              >
+                No
+              </button>
+            </div>
           </div>
-        </div>
+        </AnimatedWrapper>
       )}
     </div>
   )

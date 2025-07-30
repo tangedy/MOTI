@@ -32,9 +32,9 @@ ${answersContext}
 
 Generate 3 secondary questions that:
 - Dig deeper into specific aspects mentioned in their answers
-- Help understand their constraints, preferences, or specific situation
+- Help understand their specific situation and logistical constraints
 - Are more targeted than general questions
-- Will help create a more personalized plan
+- Will help create a more personalized, specific, and actionableplan
 
 Respond with ONLY a JSON array of 3 questions:
 ["question 1", "question 2", "question 3"]`
