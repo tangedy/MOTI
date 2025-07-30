@@ -124,26 +124,29 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
 
       {stage === "confirm" && (
         <div>
-          <h2 className="text-2xl font-bold mb-6 text-gray-900">Confirm your goal</h2>
-          <div className="p-6 bg-gray-50 border border-gray-200 rounded-lg mb-6">
-            <p className="text-lg text-gray-800">
-              It sounds like you want to <strong>{summary}</strong>, is that right?
+            <h2 className="text-5xl font-light mb-7 text-center text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif', letterSpacing: '-0.02em' }}>
+            It sounds like you want to...
+          </h2>
+          <div>
+            <p className="text-lg mb-7 text-center text-gray-800">
+              <strong>{summary}, </strong>
+              <div>is that right?</div>
             </p>
-          </div>
+          </div> 
           <div className="flex gap-4">
             <button
               onClick={handleConfirmation}
               disabled={loading}
               className="flex-1 bg-green-600 hover:bg-green-700 transition text-white font-semibold rounded-lg px-6 py-3 disabled:bg-gray-300"
             >
-              {loading ? "Loading Questions..." : "Confirm"}
+              {"Yes"}
             </button>
             <button
               onClick={handleRevise}
               disabled={loading}
               className="flex-1 bg-gray-600 hover:bg-gray-700 transition text-white font-semibold rounded-lg px-6 py-3 disabled:bg-gray-300"
             >
-              Revise
+              No
             </button>
           </div>
         </div>
