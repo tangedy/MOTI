@@ -164,8 +164,8 @@ export default function Consulting({ goal, questions, onComplete }: ConsultingPr
 
   if (loading) {
     return (
-      <div className="max-w-2xl mx-auto bg-white/60 border border-gray-200 rounded-xl shadow-sm p-12 text-center">
-        <h2 className="text-3xl font-light mb-4 text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif' }}>
+      <div className="max-w-2xl mx-auto bg-white/60 border border-gray-200 rounded-xl shadow-sm p-6 sm:p-8 md:p-12 text-center">
+        <h2 className="text-2xl sm:text-3xl font-light mb-4 text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif' }}>
           {showPhaseChoice ? "Generating follow-up questions..." : "Processing your responses..."}
         </h2>
         <p className="text-gray-500">This might take a moment.</p>
@@ -175,25 +175,25 @@ export default function Consulting({ goal, questions, onComplete }: ConsultingPr
 
   if (showPhaseChoice) {
     return (
-      <div className="max-w-2xl mx-auto bg-white/60 border border-gray-200 rounded-xl shadow-sm p-12">
-        <h2 className="text-3xl font-light mb-6 text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif' }}>
+      <div className="max-w-2xl mx-auto bg-white/60 border border-gray-200 rounded-xl shadow-sm p-6 sm:p-8 md:p-12">
+        <h2 className="text-2xl sm:text-3xl font-light mb-4 sm:mb-6 text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif' }}>
           Great progress!
         </h2>
-        <p className="mb-6 text-gray-600">
+        <p className="mb-4 sm:mb-6 text-gray-600">
           You've completed the {currentPhase === "primary" ? "primary" : "secondary"} questions. What would you like to do next?
         </p>
 
-        <div className="mb-6">
+        <div className="mb-4 sm:mb-6">
           <div className="w-full bg-gray-100 h-2 mb-2 rounded-full overflow-hidden">
             <div className="bg-[rgba(255,179,102,0.95)] h-2 rounded-full transition-all duration-500" style={{ width: `${getProgress()}%` }}></div>
           </div>
-          <div className="flex justify-between text-sm text-gray-400">
+          <div className="flex justify-between text-xs sm:text-sm text-gray-400">
             <span>{getStatusText()}</span>
             <span>{Object.keys(answers).length} questions answered</span>
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           <button onClick={() => proceedToOverview(answers)} className="w-full bg-[rgba(255,179,102,0.95)] hover:bg-[rgba(255,179,102,1)] transition text-white font-semibold rounded-lg py-3">
             See My Plan Overview
           </button>
@@ -219,19 +219,19 @@ export default function Consulting({ goal, questions, onComplete }: ConsultingPr
   const currentQuestions = getCurrentQuestions()
 
   return (
-    <div className="max-w-2xl mx-auto bg-white/60 border border-gray-200 rounded-xl shadow-sm p-12">
-      <h2 className="text-3xl font-light mb-4 text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif' }}>
+    <div className="max-w-2xl mx-auto bg-white/60 border border-gray-200 rounded-xl shadow-sm p-6 sm:p-8 md:p-12">
+      <h2 className="text-2xl sm:text-3xl font-light mb-4 text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif' }}>
         Okay, let's talk.
       </h2>
-      <p className="text-gray-600 mb-6">
+      <p className="text-gray-600 mb-4 sm:mb-6">
         Goal: <span className="font-semibold text-gray-800">{goal}</span>
       </p>
 
-      <div className="mb-8">
+      <div className="mb-6 sm:mb-8">
         <div className="w-full bg-gray-100 h-2 mb-2 rounded-full overflow-hidden">
           <div className="bg-[rgba(255,179,102,0.95)] h-2 rounded-full transition-all duration-500" style={{ width: `${getProgress()}%` }}></div>
         </div>
-        <div className="flex justify-between text-sm text-gray-400">
+        <div className="flex justify-between text-xs sm:text-sm text-gray-400">
           <span>{getStatusText()}</span>
           <span>
             {currentPhase === "primary" &&
@@ -244,14 +244,14 @@ export default function Consulting({ goal, questions, onComplete }: ConsultingPr
         </div>
       </div>
 
-      <div className="mb-8">
-        <h3 className="text-lg font-normal mb-4 text-gray-800" style={{ fontFamily: 'Segoe UI, Arial, sans-serif' }}>
+      <div className="mb-6 sm:mb-8">
+        <h3 className="text-base sm:text-lg font-normal mb-4 text-gray-800" style={{ fontFamily: 'Segoe UI, Arial, sans-serif' }}>
           {currentQuestions[currentQuestionIndex]}
         </h3>
         <QuestionInput question={currentQuestions[currentQuestionIndex]} onAnswer={handleAnswer} onSkip={handleSkip} />
       </div>
 
-      <div className="flex justify-between">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:justify-between">
         <button
           onClick={goBack}
           disabled={currentQuestionIndex === 0}
@@ -299,15 +299,15 @@ function QuestionInput({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
       <textarea
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         placeholder="Type your answer here..."
-        className="w-full px-6 py-2 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[rgba(255,179,102,0.7)] h-24 bg-white/30 backdrop-blur-md text-base text-left font-normal shadow-md placeholder-gray-500 transition"
+        className="w-full px-4 sm:px-6 py-2 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[rgba(255,179,102,0.7)] h-20 sm:h-24 bg-white/30 backdrop-blur-md text-base text-left font-normal shadow-md placeholder-gray-500 transition"
         style={{ fontFamily: 'Segoe UI, Arial, sans-serif', resize: 'vertical' }}
       />
-      <div className="flex gap-2">
+      <div className="flex flex-col sm:flex-row gap-2">
         <button
           type="submit"
           disabled={!inputValue.trim()}

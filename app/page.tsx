@@ -46,13 +46,13 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-4xl mx-auto">
         {/* Simple Header */}
         <AnimatedWrapper index={0}>
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold mb-2">MOTI</h1>
-            <p className="text-gray-600">Your execution engine</p>
+          <div className="text-center mb-4 sm:mb-6 md:mb-8">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-1 sm:mb-2">MOTI</h1>
+            <p className="text-sm sm:text-base text-gray-600">Your execution engine</p>
           </div>
         </AnimatedWrapper>
 

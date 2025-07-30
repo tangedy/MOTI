@@ -89,12 +89,12 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
   }
 
   return (
-    <div className="max-w-xl mx-auto flex flex-col items-center justify-start min-h-[60vh] pt-24">
+    <div className="max-w-xl mx-auto flex flex-col items-center justify-start min-h-[60vh] pt-8 sm:pt-12 md:pt-24 px-4">
       {stage === "input" && (
         <form onSubmit={handleInput} className="w-full flex flex-col items-center">
           {/* Header with first animation */}
           <AnimatedWrapper index={0}>
-            <h2 className="text-6xl font-light mb-10 text-center text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif', letterSpacing: '-0.02em' }}>
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-light mb-6 sm:mb-8 md:mb-10 text-center text-gray-700 px-4" style={{ fontFamily: 'Segoe UI, Arial, sans-serif', letterSpacing: '-0.02em' }}>
               What do you want to achieve?
             </h2>
           </AnimatedWrapper>
@@ -106,7 +106,7 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
               value={rawGoal}
               onChange={(e) => setRawGoal(e.target.value)}
               placeholder="I want to..."
-              className="w-[44rem] max-w-full px-8 py-1.5 mb-2 rounded-2xl border border-gray-300 bg-white/30 backdrop-blur-md text-lg text-left shadow-md focus:outline-none focus:ring-2 focus:ring-coffee-cream placeholder-gray-500 transition font-normal"
+              className="w-full max-w-md sm:max-w-lg md:max-w-xl px-4 sm:px-6 md:px-8 py-2 sm:py-1.5 mb-2 rounded-2xl border border-gray-300 bg-white/30 backdrop-blur-md text-base sm:text-lg text-left shadow-md focus:outline-none focus:ring-2 focus:ring-coffee-cream placeholder-gray-500 transition font-normal"
               disabled={loading}
               autoFocus
               onKeyDown={(e) => {
@@ -119,7 +119,7 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
           </AnimatedWrapper>
           
           {/* Error message with third animation */}
-          <AnimatedWrapper index={2} className="w-full flex items-start justify-start mt-2" style={{ minHeight: 32 }}>
+          <AnimatedWrapper index={2} className="w-full flex items-start justify-start mt-2 px-4" style={{ minHeight: 32 }}>
             <div className={`transition-opacity duration-500 ${error ? 'opacity-100' : 'opacity-0'}` + " w-full max-w-md"}>
               {error && (
                 <div className="p-2 bg-[rgba(153,27,27,0.85)] border border-[rgba(120,20,20,0.7)] text-white rounded-lg text-left text-sm shadow-sm font-normal" style={{ fontFamily: 'Segoe UI, Arial, sans-serif' }}>
@@ -132,27 +132,26 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
       )}
 
       {stage === "confirm" && (
-          <div>
-            <AnimatedWrapper index={1}>
-            <h2 className="text-5xl font-light mb-7 text-center text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif', letterSpacing: '-0.02em' }}>
+        <div className="w-full px-4">
+          <AnimatedWrapper index={1}>
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-light mb-4 sm:mb-6 md:mb-7 text-center text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif', letterSpacing: '-0.02em' }}>
               It sounds like you want to...
             </h2>
-            </AnimatedWrapper>
-            
-            <div>
-              
-              <p className="text-lg mb-7 text-center text-gray-800">
-                <AnimatedWrapper index={4}>
+          </AnimatedWrapper>
+          
+          <div>
+            <p className="text-base sm:text-lg mb-4 sm:mb-6 md:mb-7 text-center text-gray-800">
+              <AnimatedWrapper index={4}>
                 <strong>{summary}, </strong>
-                </AnimatedWrapper>
-
-                <AnimatedWrapper index={8}>
+              </AnimatedWrapper>
+              <AnimatedWrapper index={8}>
                 <div>is that right?</div>
-                </AnimatedWrapper>
-              </p>
-            </div> 
-            <AnimatedWrapper index={8}>
-            <div className="flex gap-4">
+              </AnimatedWrapper>
+            </p>
+          </div> 
+          
+          <AnimatedWrapper index={8}>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <button
                 onClick={handleConfirmation}
                 disabled={loading}
@@ -168,9 +167,8 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
                 No
               </button>
             </div>
-            </AnimatedWrapper>
-          </div>
-
+          </AnimatedWrapper>
+        </div>
       )}
     </div>
   )
