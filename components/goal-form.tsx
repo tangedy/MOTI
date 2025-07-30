@@ -132,17 +132,26 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
       )}
 
       {stage === "confirm" && (
-        <AnimatedWrapper>
           <div>
+            <AnimatedWrapper index={1}>
             <h2 className="text-5xl font-light mb-7 text-center text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif', letterSpacing: '-0.02em' }}>
               It sounds like you want to...
             </h2>
+            </AnimatedWrapper>
+            
             <div>
+              
               <p className="text-lg mb-7 text-center text-gray-800">
+                <AnimatedWrapper index={4}>
                 <strong>{summary}, </strong>
+                </AnimatedWrapper>
+
+                <AnimatedWrapper index={8}>
                 <div>is that right?</div>
+                </AnimatedWrapper>
               </p>
             </div> 
+            <AnimatedWrapper index={8}>
             <div className="flex gap-4">
               <button
                 onClick={handleConfirmation}
@@ -159,8 +168,9 @@ export default function GoalForm({ onSubmit }: GoalFormProps) {
                 No
               </button>
             </div>
+            </AnimatedWrapper>
           </div>
-        </AnimatedWrapper>
+
       )}
     </div>
   )

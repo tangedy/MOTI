@@ -27,8 +27,12 @@ export function AnimatedWrapper({
 
   return (
     <div 
-      className={`${animationClasses} ${className}`} 
-      style={{ ...animationStyle, ...customStyle }}
+      className={`${animationClasses} ${className}`}
+      style={{ 
+        ...animationStyle, 
+        ...customStyle,
+        willChange: 'opacity, transform'
+      }}
     >
       {children}
     </div>
@@ -57,8 +61,9 @@ export function StaggeredContainer({
     if (React.isValidElement(child)) {
       const { className: animationClasses, style } = getAnimationClasses(index)
       return React.cloneElement(child, {
+        ...child.props,
         className: `${child.props.className || ''} ${animationClasses}`,
-        style: { ...child.props.style, ...style }
+        style: { ...child.props.style, ...style, willChange: 'opacity, transform' }
       })
     }
     return child

@@ -21,13 +21,16 @@ export function useFadeIn(options: UseFadeInOptions = {}) {
   const getAnimationClasses = (index: number = 0) => {
     const totalDelay = delay + (index * staggerDelay)
     return {
-      className: `transition-all duration-${duration} ease-out ${
+      className: `transition-all ease-out ${
         isLoaded 
           ? 'opacity-100 translate-y-0' 
           : 'opacity-0 -translate-y-8'
       }`,
       style: {
-        transitionDelay: `${totalDelay}ms`
+        transitionDuration: `${duration}ms`,
+        transitionDelay: `${totalDelay}ms`,
+        transitionProperty: 'all',
+        transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)'
       }
     }
   }

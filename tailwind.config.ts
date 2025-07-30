@@ -10,6 +10,14 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "*.{js,ts,jsx,tsx,mdx}"
   ],
+  safelist: [
+    'transition-all',
+    'ease-out',
+    'opacity-0',
+    'opacity-100',
+    '-translate-y-8',
+    'translate-y-0'
+  ],
   theme: {
   	extend: {
   		colors: {
