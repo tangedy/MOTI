@@ -220,7 +220,7 @@ export default function Consulting({ goal, questions, onComplete }: ConsultingPr
   const currentQuestions = getCurrentQuestions()
 
   return (
-    <div className="max-w-2xl mx-auto backdrop-filter: blur(10px); border border-gray-200 rounded-xl shadow-sm p-6 sm:p-8 md:p-12">
+    <div className="max-w-2xl mx-auto bg-white/60 border border-gray-200 rounded-xl shadow-sm p-6 sm:p-8 md:p-12">
       <AnimatedWrapper>
       <h2 className="text-2xl sm:text-3xl font-light mb-8 text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif' }}>
         Okay, let's talk.
