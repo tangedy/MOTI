@@ -52,7 +52,7 @@ export default function Home() {
         <AnimatedWrapper index={0}>
           <div className="text-center mb-4 sm:mb-6 md:mb-8">
             <h1 className="text-2xl sm:text-3xl font-bold mb-1 sm:mb-2">MOTI</h1>
-            <p className="text-sm sm:text-base text-gray-600">Your execution engine</p>
+            <p className="text-sm sm:text-base text-gray-600">your execution engine</p>
           </div>
         </AnimatedWrapper>
 

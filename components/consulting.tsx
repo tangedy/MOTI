@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { useState } from "react"
+import { AnimatedWrapper } from "@/components/ui/animated-wrapper"
 
 interface ConsultingProps {
   goal: string
@@ -166,7 +167,7 @@ export default function Consulting({ goal, questions, onComplete }: ConsultingPr
     return (
       <div className="max-w-2xl mx-auto bg-white/60 border border-gray-200 rounded-xl shadow-sm p-6 sm:p-8 md:p-12 text-center">
         <h2 className="text-2xl sm:text-3xl font-light mb-4 text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif' }}>
-          {showPhaseChoice ? "Generating follow-up questions..." : "Processing your responses..."}
+          {"Analyzing..."}
         </h2>
         <p className="text-gray-500">This might take a moment.</p>
       </div>
@@ -219,20 +220,33 @@ export default function Consulting({ goal, questions, onComplete }: ConsultingPr
   const currentQuestions = getCurrentQuestions()
 
   return (
-    <div className="max-w-2xl mx-auto bg-white/60 border border-gray-200 rounded-xl shadow-sm p-6 sm:p-8 md:p-12">
-      <h2 className="text-2xl sm:text-3xl font-light mb-4 text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif' }}>
+    <div className="max-w-2xl mx-auto backdrop-filter: blur(10px); border border-gray-200 rounded-xl shadow-sm p-6 sm:p-8 md:p-12">
+      <AnimatedWrapper>
+      <h2 className="text-2xl sm:text-3xl font-light mb-8 text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif' }}>
         Okay, let's talk.
       </h2>
-      <p className="text-gray-600 mb-4 sm:mb-6">
-        Goal: <span className="font-semibold text-gray-800">{goal}</span>
-      </p>
+      </AnimatedWrapper>
+
+      
+      <div className="mb-0 sm:mb-0">
+        <AnimatedWrapper index={4}>
+              <h3 className="text-base sm:text-lg font-normal mb-4 text-gray-800" style={{ fontFamily: 'Segoe UI, Arial, sans-serif' }}>
+                {currentQuestions[currentQuestionIndex]}
+              </h3>
+        </AnimatedWrapper>
+        <AnimatedWrapper index={7}>
+              <QuestionInput question={currentQuestions[currentQuestionIndex]} onAnswer={handleAnswer} onSkip={handleSkip} />
+            </AnimatedWrapper>
+            </div>
+    
+
 
       <div className="mb-6 sm:mb-8">
         <div className="w-full bg-gray-100 h-2 mb-2 rounded-full overflow-hidden">
           <div className="bg-[rgba(255,179,102,0.95)] h-2 rounded-full transition-all duration-500" style={{ width: `${getProgress()}%` }}></div>
         </div>
         <div className="flex justify-between text-xs sm:text-sm text-gray-400">
-          <span>{getStatusText()}</span>
+       {/*   <span>{getStatusText()}</span>*/}
           <span>
             {currentPhase === "primary" &&
               `Question ${currentQuestionIndex + 1} of ${currentQuestions.length} (Required)`}
@@ -244,12 +258,7 @@ export default function Consulting({ goal, questions, onComplete }: ConsultingPr
         </div>
       </div>
 
-      <div className="mb-6 sm:mb-8">
-        <h3 className="text-base sm:text-lg font-normal mb-4 text-gray-800" style={{ fontFamily: 'Segoe UI, Arial, sans-serif' }}>
-          {currentQuestions[currentQuestionIndex]}
-        </h3>
-        <QuestionInput question={currentQuestions[currentQuestionIndex]} onAnswer={handleAnswer} onSkip={handleSkip} />
-      </div>
+      
 
       <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:justify-between">
         <button
@@ -290,39 +299,30 @@ function QuestionInput({
 }) {
   const [inputValue, setInputValue] = useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (inputValue.trim()) {
-      onAnswer(inputValue.trim())
-      setInputValue("")
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      if (inputValue.trim()) {
+        onAnswer(inputValue.trim())
+        setInputValue("")
+      }
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
-      <textarea
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        placeholder="Type your answer here..."
-        className="w-full px-4 sm:px-6 py-2 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[rgba(255,179,102,0.7)] h-20 sm:h-24 bg-white/30 backdrop-blur-md text-base text-left font-normal shadow-md placeholder-gray-500 transition"
-        style={{ fontFamily: 'Segoe UI, Arial, sans-serif', resize: 'vertical' }}
-      />
-      <div className="flex flex-col sm:flex-row gap-2">
-        <button
-          type="submit"
-          disabled={!inputValue.trim()}
-          className="flex-1 bg-[rgba(255,179,102,0.95)] hover:bg-[rgba(255,179,102,1)] transition text-white font-semibold rounded-lg py-2 disabled:bg-gray-300"
-        >
-          {question.includes("?") ? "Answer" : "Next"} 
-        </button>
-        <button
-          type="button"
-          onClick={onSkip}
-          className="flex-1 bg-gray-200 hover:bg-gray-300 transition text-gray-700 font-semibold rounded-lg py-2"
-        >
-          Skip
-        </button>
-      </div>
-    </form>
+    <div className="w-full">
+      <AnimatedWrapper index={2}>
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Type your answer here..."
+          className="w-full px-4 sm:px-6 md:px-8 py-2 sm:py-1.5 mb-2 rounded-2xl border border-gray-300 bg-white/30 backdrop-blur-md text-base sm:text-lg text-left shadow-md focus:outline-none focus:ring-2 focus:ring-coffee-cream placeholder-gray-500 transition font-normal"
+          autoFocus
+          style={{ textAlign: 'left' }}
+        />
+      </AnimatedWrapper>
+    </div>
   )
 }
