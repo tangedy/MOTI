@@ -7,7 +7,7 @@ MOTI/
 ├── components/            # Reusable UI components
 ├── lib/                   # Utility functions
 └── hooks/                 # Custom React hooks
-[file.md](https://github.com/user-attachments/files/21561604/file.md)
+
 
 ##install packages
 npm install
