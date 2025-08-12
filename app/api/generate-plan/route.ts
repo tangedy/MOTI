@@ -57,7 +57,8 @@ Requirements:
 - Each task must have 3-4 actionable subtasks
 - Be specific and actionable, not vague
 - Provide realistic timelines
-- Response must be valid JSON only`
+- Response must be valid JSON only
+- Response must NOT include "Phase 1:", "Phase 2:", "Phase 3:" in the title of the phases.`
 
     // Update the system message as well
     const response = await fetch(GROQ_URL, {

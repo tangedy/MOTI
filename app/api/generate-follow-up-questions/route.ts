@@ -36,6 +36,10 @@ Generate 3 secondary questions that:
 - Are more targeted than general questions
 - Will help create a more personalized, specific, and actionableplan
 
+- make sure each question begets no more than one response. Dont ask two things in one question.
+- DONT include a bracketed list of examples in your questions.
+- Word your questions in dialogue-like human language.
+
 Respond with ONLY a JSON array of 3 questions:
 ["question 1", "question 2", "question 3"]`
         : `Based on this goal and all previous answers, generate 3 final deep-dive questions that will help create the most comprehensive and foolproof plan possible.

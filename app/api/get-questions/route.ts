@@ -45,7 +45,9 @@ Each question should be:
 RESPONSE FORMAT: JSON array of exactly 5 questions
 ["question 1", "question 2", "question 3", "question 4", "question 5"]
 
-- make sure each qestion begets no more than one response. Dont ask two things in one question.
+- make sure each question begets no more than one response. Dont ask two things in one question.
+- DONT include a bracketed list of examples in your questions.
+- Word your questions in dialogue-like human language.
 DOMAIN-SPECIFIC PATTERNS:
 
 CREATIVE PROJECTS: 

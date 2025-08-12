@@ -138,7 +138,7 @@ export default function Consulting({ goal, questions, onComplete }: ConsultingPr
       })
 
       if (!response.ok) {
-        throw new Error("Failed to generate tertiary questions")
+        throw new Error("Something went wrong. Try again?")
       }
 
       const data = await response.json()
@@ -147,7 +147,7 @@ export default function Consulting({ goal, questions, onComplete }: ConsultingPr
       setCurrentQuestionIndex(0)
       setShowPhaseChoice(false)
     } catch (err) {
-      setError("Failed to generate follow-up questions. Please try again.")
+      setError("Something went wrong. Try again?")
     } finally {
       setLoading(false)
     }
@@ -169,7 +169,6 @@ export default function Consulting({ goal, questions, onComplete }: ConsultingPr
         <h2 className="text-2xl sm:text-3xl font-light mb-4 text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif' }}>
           {"Analyzing..."}
         </h2>
-        <p className="text-gray-500">This might take a moment.</p>
       </div>
     )
   }
@@ -178,10 +177,10 @@ export default function Consulting({ goal, questions, onComplete }: ConsultingPr
     return (
       <div className="max-w-2xl mx-auto bg-white/60 border border-gray-200 rounded-xl shadow-sm p-6 sm:p-8 md:p-12">
         <h2 className="text-2xl sm:text-3xl font-light mb-4 sm:mb-6 text-gray-700" style={{ fontFamily: 'Segoe UI, Arial, sans-serif' }}>
-          Great progress!
+          Your goal is becoming clearer..
         </h2>
         <p className="mb-4 sm:mb-6 text-gray-600">
-          You've completed the {currentPhase === "primary" ? "primary" : "secondary"} questions. What would you like to do next?
+          The primary questions give a rough outline of a general plan.
         </p>
 
         <div className="mb-4 sm:mb-6">
@@ -190,26 +189,25 @@ export default function Consulting({ goal, questions, onComplete }: ConsultingPr
           </div>
           <div className="flex justify-between text-xs sm:text-sm text-gray-400">
             <span>{getStatusText()}</span>
-            <span>{Object.keys(answers).length} questions answered</span>
           </div>
         </div>
 
         <div className="space-y-3 sm:space-y-4">
           <button onClick={() => proceedToOverview(answers)} className="w-full bg-[rgba(255,179,102,0.95)] hover:bg-[rgba(255,179,102,1)] transition text-white font-semibold rounded-lg py-3">
-            See My Plan Overview
+            Skip to Next Step
           </button>
 
           <div className="text-center text-gray-400">or</div>
 
           {currentPhase === "primary" && (
             <button onClick={generateSecondaryQuestions} className="w-full bg-gray-600 hover:bg-gray-700 transition text-white font-semibold rounded-lg py-3">
-              Answer More Specific Questions (3 more)
+              Dive Deeper
             </button>
           )}
 
           {currentPhase === "secondary" && (
             <button onClick={generateTertiaryQuestions} className="w-full bg-gray-600 hover:bg-gray-700 transition text-white font-semibold rounded-lg py-3">
-              Answer Final Deep-Dive Questions (3 more)
+              Make it Foolproof
             </button>
           )}
         </div>
@@ -249,11 +247,11 @@ export default function Consulting({ goal, questions, onComplete }: ConsultingPr
        {/*   <span>{getStatusText()}</span>*/}
           <span>
             {currentPhase === "primary" &&
-              `Question ${currentQuestionIndex + 1} of ${currentQuestions.length} (Required)`}
+              `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`}
             {currentPhase === "secondary" &&
-              `Secondary ${currentQuestionIndex + 1} of ${currentQuestions.length} (Optional)`}
+              `Secondary ${currentQuestionIndex + 1} of ${currentQuestions.length}`}
             {currentPhase === "tertiary" &&
-              `Final ${currentQuestionIndex + 1} of ${currentQuestions.length} (Optional)`}
+              `Final ${currentQuestionIndex + 1} of ${currentQuestions.length}`}
           </span>
         </div>
       </div>

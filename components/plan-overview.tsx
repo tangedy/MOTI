@@ -64,8 +64,7 @@ export default function PlanOverview({ goal, answers, onApprove, onBack }: PlanO
   if (loading) {
     return (
       <div className="max-w-3xl mx-auto bg-white border border-gray-200 rounded-xl shadow-sm p-8 text-center">
-        <h2 className="text-2xl font-bold mb-4 text-gray-900">Analyzing your goal...</h2>
-        <p className="text-gray-600">Creating a high-level overview of what needs to be done.</p>
+        <h2 className="text-2xl font-bold mb-4 text-gray-900">Analyzing...</h2>
       </div>
     )
   }
@@ -77,9 +76,7 @@ export default function PlanOverview({ goal, answers, onApprove, onBack }: PlanO
         <p className="text-gray-700 mb-4">
           To achieve: <strong>{goal}</strong>
         </p>
-        <p className="text-gray-500">
-          These are the main steps in simple terms. Click on any step to understand why it's necessary.
-        </p>
+    
       </div>
 
       <div className="space-y-4">
@@ -108,11 +105,11 @@ export default function PlanOverview({ goal, answers, onApprove, onBack }: PlanO
       <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-8">
         <div className="flex justify-between gap-4">
           <button onClick={onBack} className="bg-gray-600 hover:bg-gray-700 transition text-white font-semibold rounded-lg px-6 py-3">
-             Back to Questions
+             Revise
           </button>
 
           <button onClick={handleApprove} className="bg-blue-600 hover:bg-blue-700 transition text-white font-semibold rounded-lg px-6 py-3">
-            This looks good - Set timeline
+            Proceed
           </button>
         </div>
 

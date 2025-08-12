@@ -202,9 +202,6 @@ export default function TimelineSelector({
             </p>
           </div>
 
-          <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-4">
-            <p className="text-sm text-gray-700">{timelineData.reasoning}</p>
-          </div>
 
           <div className="flex gap-4">
             <button onClick={handleConfirm} className="flex-1 bg-blue-600 hover:bg-blue-700 transition text-white font-semibold rounded-lg py-3">
