@@ -103,7 +103,7 @@ FINANCIAL:
           {
             role: "system",
             content:
-              "You are an expert project clarification specialist. Always respond with ONLY valid JSON in the exact format requested - a JSON array of exactly 5 questions.",
+              "You are an expert project clarification specialist. CRITICAL: You must respond with ONLY valid JSON in the exact format requested - a JSON array of exactly 5 questions. The response must start with '[' and end with ']'. Each question must be a string enclosed in double quotes and separated by commas. Example: [\"question 1\", \"question 2\", \"question 3\", \"question 4\", \"question 5\"]",
           },
           {
             role: "user",
@@ -117,27 +117,79 @@ FINANCIAL:
     if (response.ok) {
       const aiResponse = await response.json()
       let content = aiResponse.choices[0].message.content.trim()
+      
+      console.log("Raw AI response:", content)
+      
+      // Try to clean up the response
       content = content.replace(/```json\s*/g, "").replace(/```\s*/g, "")
-      content = content.replace(/^[^[]*(\[.*\])[^\]]*$/s, "$1")
+      content = content.replace(/^[^[]*(\[.*\])[^\]]*$/m, "$1")
+      
+      // Fix common malformed JSON issues
+      if (content.startsWith('[') && !content.endsWith(']')) {
+        // Find the last complete quote and add closing bracket
+        const lastQuoteIndex = content.lastIndexOf('"')
+        if (lastQuoteIndex !== -1) {
+          content = content.substring(0, lastQuoteIndex + 1) + ']'
+        }
+      }
+      
+      // Ensure proper JSON structure
+      if (!content.startsWith('[')) {
+        content = '[' + content
+      }
+      if (!content.endsWith(']')) {
+        content = content + ']'
+      }
+      
+      console.log("Cleaned content:", content)
       
       try {
         const questionsData = JSON.parse(content)
         if (!Array.isArray(questionsData) || questionsData.length !== 5) {
-          throw new Error("Invalid response format")
+          console.error("Invalid response format - not an array of 5 questions:", questionsData)
+          return NextResponse.json({ 
+            error: "Invalid response format", 
+            debug: { 
+              raw: aiResponse.choices[0].message.content,
+              cleaned: content,
+              parsed: questionsData 
+            }
+          }, { status: 500 })
         }
         
         // Validate that all questions are strings
         if (!questionsData.every(q => typeof q === 'string' && q.trim().length > 0)) {
-          throw new Error("Invalid question format")
+          console.error("Invalid question format:", questionsData)
+          return NextResponse.json({ 
+            error: "Invalid question format", 
+            debug: { 
+              raw: aiResponse.choices[0].message.content,
+              cleaned: content,
+              parsed: questionsData 
+            }
+          }, { status: 500 })
         }
         
         return NextResponse.json({ questions: questionsData })
       } catch (parseError) {
         console.error("Failed to parse questions:", parseError)
-        return NextResponse.json({ error: "Failed to generate questions" }, { status: 500 })
+        console.error("Content that failed to parse:", content)
+        return NextResponse.json({ 
+          error: "Failed to parse questions", 
+          debug: { 
+            raw: aiResponse.choices[0].message.content,
+            cleaned: content,
+            parseError: parseError instanceof Error ? parseError.message : String(parseError)
+          }
+        }, { status: 500 })
       }
     } else {
-      return NextResponse.json({ error: `API request failed: ${response.status}` }, { status: 500 })
+      const errorText = await response.text()
+      console.error("API request failed:", response.status, errorText)
+      return NextResponse.json({ 
+        error: `API request failed: ${response.status}`, 
+        debug: errorText 
+      }, { status: 500 })
     }
   } catch (error) {
     console.error("Server error:", error)
