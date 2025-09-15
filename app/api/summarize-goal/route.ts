@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "llama3-70b-8192",
+        model: "llama-3.1-8b-instant",
         messages: [
           {
             role: "system",
@@ -44,20 +44,51 @@ export async function POST(request: NextRequest) {
     if (response.ok) {
       const aiResponse = await response.json()
       let content = aiResponse.choices[0].message.content.trim()
+      
+      console.log("Raw AI response (summarize-goal):", content)
+      
       content = content.replace(/```json\s*/g, "").replace(/```\s*/g, "")
-      content = content.replace(/^[^{]*({.*})[^}]*$/s, "$1")
+      content = content.replace(/^[^{]*({.*})[^}]*$/m, "$1")
+      
+      // Fix common malformed JSON issues
+      if (!content.startsWith('{')) {
+        content = '{' + content
+      }
+      if (!content.endsWith('}')) {
+        content = content + '}'
+      }
+      
+      console.log("Cleaned content (summarize-goal):", content)
+      
       try {
         const summaryData = JSON.parse(content)
         if (summaryData.error === 400) {
           return NextResponse.json({ error: "Hmm. That's a bit unclear." }, { status: 400 })
         }
-        if (!summaryData.summary) throw new Error("No summary returned")
+        if (!summaryData.summary) {
+          console.error("No summary returned:", summaryData)
+          return NextResponse.json({ error: "No summary returned", debug: { raw: aiResponse.choices[0].message.content, cleaned: content, parsed: summaryData } }, { status: 500 })
+        }
         return NextResponse.json(summaryData)
       } catch (parseError) {
-        return NextResponse.json({ error: "Failed to parse summary" }, { status: 500 })
+        console.error("Failed to parse summary:", parseError)
+        console.error("Content that failed to parse:", content)
+        return NextResponse.json({ 
+          error: "Failed to parse summary", 
+          debug: { 
+            raw: aiResponse.choices[0].message.content,
+            cleaned: content,
+            parseError: parseError instanceof Error ? parseError.message : String(parseError)
+          }
+        }, { status: 500 })
       }
     } else {
-      return NextResponse.json({ error: `API request failed: ${response.status}` }, { status: 500 })
+      const errorText = await response.text()
+      console.error("API request failed (summarize-goal):", response.status, errorText)
+      return NextResponse.json({ 
+        error: `API request failed: ${response.status}`, 
+        debug: errorText 
+      }, { status: 500 })
     }
   } catch (error) {
     return NextResponse.json({ error: `Server error: ${error}` }, { status: 500 })
